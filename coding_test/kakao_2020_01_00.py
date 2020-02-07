@@ -9,6 +9,9 @@ result = []
 def solution(s):
     sum_list = []
     count_sol = 1
+    if len(s) == 1:
+        return s
+
     for i in range(len(s)):
         if i == len(s) - 1:
             if count_sol == 1:
