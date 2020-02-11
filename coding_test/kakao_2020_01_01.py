@@ -22,10 +22,10 @@ def solution(s):
                     if val == before_val:
                         cnt += 1
                         if idx == len(spl) - 1:
-                            newstr += (str(cnt) + before_val)
+                            newstr += str(cnt) + before_val
                     else:
                         if cnt > 1:
-                            newstr += (str(cnt) + before_val)
+                            newstr += str(cnt) + before_val
                             if idx == len(spl) - 1:
                                 newstr += val
                         else:
@@ -38,8 +38,8 @@ def solution(s):
             if new_str_length < answer:
                 answer = new_str_length
 
-        return answer
+    return answer
 
 
-a = "aaaa"
+a = "aabbaccc"
 print(solution(a))

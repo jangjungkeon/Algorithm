@@ -1,69 +1,37 @@
-s = 'aaaavvdadfsfweqerrrrebbaccc'
-N = len(s)
-s_list = list(s)
-s_list_split = []
-count = 0
-temp = []
-result = []
+p = "()))((()"
+
+def check(p):
+    l = 0
+    for i in p:
+        if i == '(':
+            l += 1
+        else:
+            l -= 1
+            if l < 0:
+                return False
+    return l == 0
 
 
-def solution(s):
-    sum_list = []
-    count_sol = 1
-    for i in range(len(s)):
-        if i == len(s) - 1:
-            if count_sol == 1:
-                sum_list.append(s_list[i])
-                break
-            if count > 1:
-                a = str(count_sol) + s_list[i]
-                sum_list.append(a)
-                count_sol = 1
-                break
-        if count_sol == 1:
-            if s_list[i] != s_list[i + 1]:
-                sum_list.append(s_list[i])
-            else:
-                count_sol += 1
-                continue
-
-        if count_sol > 1:
-            if s_list[i] != s_list[i + 1]:
-                a = str(count_sol) + s_list[i]
-                sum_list.append(a)
-                count_sol = 1
-            else:
-                count_sol += 1
-
-    # 문자열을 N/2개로 나누기
-    # 나누어진 문자열을 함수로 돌려 길이 확인하기
-    # min 값으로 가장 작은 값 리턴하기
+def seperate(p):
+    l = r = 0
+    for i in range(len(p)):
+        if p[i] == '(':
+            l += 1
+        else:
+            r += 1
+        if l > 0 and l == r:
+            return p[:i+1], p[i+1:]
 
 
-for i in range(1, int(N / 2) + 1):
-    count = 0
-    for j in s_list:
-        count += 1
-        temp.append(j)
-        # i번째 요소까지 합쳐
-        temp = ["".join(temp)]
-        if count % i == 0 or count == N:
-            s_list_split.append(temp[0])
-            temp = []
-    print(s_list_split)
-    s_list_split = []
+def solution(p):
+    print(1)
+    # 재귀함수의 종료 조건
+    if p == '':
+        return p
+    u, v = seperate(p)
+    if check(u):
+        #print(u + solution(v))
+        return u + solution(v)
+    return f"({solution(v)}){''.join([i == ')' and '(' or ')' for i in u[1:-1]])}"
 
-    result.append(solution(s_list_split))
-    print(s_list_split)
-    s_list_split = []
-print(result)
-
-
-
-
-
-
-
-
-
-
+solution(p)
