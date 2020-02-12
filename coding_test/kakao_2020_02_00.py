@@ -32,4 +32,3 @@ def solution(p):
     return f"({solution(v)}){''.join([i=='(' and ')' or '(' for i in u[1:-1]])}"
 
 print(solution(p))
-

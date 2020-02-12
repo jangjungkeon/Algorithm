@@ -1,66 +1,60 @@
-s = 'aaaavvdadfsfweqerrrrebbacccccc'
-N = len(s)
-s_list = list(s)
-s_list_split = []
-count = 0
-temp = []
-result = []
+key = [[0, 0, 0], [1, 0, 0], [0, 1, 1]]
+lock = [[1, 1, 1], [1, 1, 0], [1, 0, 1]]
 
 
+# key_rotation
+def key_rotation(key):
+    n = len(key)
+    key_right90 = [[0 for i in range(n)] for i in range(n)]
+    for row in range(n):
+        for column in range(n):
+            key_right90[row][column] = key[n - 1 - column][row]
+    return key_right90
 
-def solution(s):    # s = ['aa', 'aa', 'vv', 'da', 'df', 'sf', 'we', 'qe', 'rr', 'rr', 'eb', 'ba', 'cc', 'c']
-    sum_list = []
-    count_sol = 1
-    for i in range(len(s)):     # len(s) = 14, 0 ~ 13
-        if i == len(s) - 1:
-            if count_sol == 1:
-                sum_list.append(s[i])
-                break
-            if count > 1:
-                a = str(count_sol) + s[i]
-                sum_list.append(a)
-                count_sol = 1
-                break
-        if count_sol == 1:
-            if s[i] != s[i + 1]:
-                sum_list.append(s[i])
+
+# key_expand
+def key_expand(key):
+    n = len(key)
+    key_expand_array = [[0 for i in range(3 * n - 2)] for i in range(3 * n - 2)]
+
+    for i in range(n):
+        for j in range(n):
+            key_expand_array[i + n - 1][j + n - 1] = key[i][j]
+
+    # cut key_expand_array
+    for i in range(2 * n - 1):
+        for j in range(2 * n - 1):
+            print(key_expand_array[0])
+    #print("자르기 : ", key_expand_array[0][0:3][0:3])
+    #print(key_expand_array)
+    return key_expand_array
+
+key_expand(key)
+# answer
+def answer(lock):
+    answer = lock
+    for i in range(len(lock)):
+        for j in range(len(lock)):
+            if lock[i][j] == 1:
+                answer[i][j] = 0
             else:
-                count_sol += 1
-                continue
+                answer[i][j] = 1
+    return answer
 
-        if count_sol > 1:
-            if s[i] != s[i + 1]:
-                a = str(count_sol) + s[i]
-                sum_list.append(a)
-                count_sol = 1
-            else:
-                count_sol += 1
-    return "".join(sum_list)
 
-    # 문자열을 N/2개로 나누기
-    # 나누어진 문자열을 함수로 돌려 길이 확인하기
-    # min 값으로 가장 작은 값 리턴하기
+# compare key_expand with answer
+def solution(key, lock):
+    # 3회전 해보기
+    answer_array = answer(lock)
+    n = len(key)
+    for _ in range(3):
+        key = key_rotation(key)
+        key_expand_array = key_expand(key)
+        cnt = 0
+        for i in range(2 * n - 1):
+            for j in range(2 * n - 1):
+                if key_expand_array[i:i+n][j:j+n] == answer_array:
+                    return True
+    return False
 
-for i in range(1, int(N / 2) + 1):
-    count = 0
-    for j in s_list:
-        count += 1
-        temp.append(j)
-        # i번째 요소까지 합쳐
-        temp = ["".join(temp)]
-        if count % i == 0 or count == N:
-            s_list_split.append(temp[0])
-            temp = []
-    print(s_list_split)
-    print(solution(s_list_split))
-    s_list_split = []
 
-    '''
-    result.append(solution(s_list_split))
-    s_list_split = []
-
-min()
-    print(s_list_split)
-    s_list_split = []
-print(result)
-'''
