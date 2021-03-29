@@ -23,6 +23,6 @@ if __name__ == '__main__':
     board = []
     for i in range(N):
         board.append(list(sys.stdin.readline().split('\n')[0]))
-    dfs()
+    bfs()
 
 
